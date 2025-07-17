@@ -1,0 +1,2221 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "B2B Hotel API",
+        "description": "    Nova API do B2B Hotel.\n\n    Roles dos usuários:\n\n    Backoffice:\n    * BACKOFFICE_ADMIN_MASTER (Verificação JWT)\n      - UserType = BACKOFFICE\n      - Role = ADMIN_MASTER\n    * BACKOFFICE_ADMIN (Verificação JWT)\n      - UserType = BACKOFFICE\n      - Role = ADMIN\n    * BACKOFFICE_FINANCE (Verificação JWT)\n      - UserType = BACKOFFICE\n      - Role = FINANCE\n    * BACKOFFICE_OPERATIONS: (Verificação JWT)\n      - UserType = BACKOFFICE\n      - Role = OPERATIONS\n\n    Customer:\n    * CUSTOMER_ADMIN (Verificação JWT)\n      - UserType = CUSTOMER\n      - Role = ADMIN\n      - Status = APPROVED\n    * CUSTOMER_ADMIN_HAS_ACCESS (Verificação Interna)\n      - UserType = CUSTOMER\n      - Role = ADMIN\n      - Status = APPROVED\n      - Customers[] Possui o id do customer que está na pathVariable: {customerId} associado ao seu CustomerAssignment ou ao\n        EconomicGroup que está associado ao seu CustomerAssignment.\n",
+        "version": "v0.0.1"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080",
+            "description": "Generated server url"
+        }
+    ],
+    "security": [
+        {
+            "bearer-token": []
+        }
+    ],
+    "paths": {
+        "/customers/{customerId}": {
+            "get": {
+                "tags": [
+                    "customer-controller"
+                ],
+                "summary": "Endpoint para buscar Customer por ID",
+                "description": "Busca um customer pelo ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS\n- CUSTOMER_ADMIN_HAS_ACCESS",
+                "operationId": "getCustomerById",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "customer-controller"
+                ],
+                "summary": "Endpoint para editar Customer",
+                "description": "Edita um customer existente com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS\n- CUSTOMER_ADMIN_HAS_ACCESS",
+                "operationId": "updateCustomer",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateCustomerRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/backoffice/users/{id}": {
+            "get": {
+                "tags": [
+                    "backoffice-user-controller"
+                ],
+                "summary": "Endpoint para buscar usuário backoffice por ID",
+                "description": "Busca um usuário backoffice pelo ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "operationId": "getBackofficeUserById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BackofficeUserResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "backoffice-user-controller"
+                ],
+                "summary": "Endpoint para atualização de usuário backoffice",
+                "description": "Atualiza as informações de um usuário backoffice pelo ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
+                "operationId": "updateBackOfficeUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBackofficeUserRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GenericMessageResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "backoffice-user-controller"
+                ],
+                "summary": "Endpoint para exclusão de usuário backoffice",
+                "description": "Realiza um soft delete no usuário backoffice referente ao ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
+                "operationId": "deleteBackofficeUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/backoffice/users/{id}/photo": {
+            "put": {
+                "tags": [
+                    "backoffice-user-controller"
+                ],
+                "summary": "Endpoint para upload de foto de usuário backoffice",
+                "description": "Faz o upload da foto do usuário referente ao ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
+                "operationId": "uploadBackofficeUserPhoto",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "photo": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": [
+                                    "photo"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UploadPhotoResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/backoffice/customers/{customerId}": {
+            "get": {
+                "tags": [
+                    "backoffice-customer-controller"
+                ],
+                "summary": "Endpoint para buscar Customer por ID",
+                "description": "Busca um customer pelo ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "operationId": "getCustomerById_1",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "backoffice-customer-controller"
+                ],
+                "summary": "Endpoint para editar Customer",
+                "description": "Edita um customer existente com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "operationId": "updateCustomer_1",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateCustomerRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "backoffice-customer-controller"
+                ],
+                "summary": "Endpoint para deletar Customer por ID",
+                "description": "Realiza um soft delete no customer referente ao ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "operationId": "deleteCustomerById",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/backoffice/customers/{customerId}/economic-group/{economicGroupId}": {
+            "put": {
+                "tags": [
+                    "backoffice-customer-controller"
+                ],
+                "summary": "Endpoint para atualizar o grupo econômico do customer",
+                "description": "Atualiza o grupo econômico do customer com o ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "operationId": "assignEconomicGroupToCustomer",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "economicGroupId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "post": {
+                "tags": [
+                    "Public"
+                ],
+                "summary": "Endpoint pública para cadastro de usuário",
+                "description": "Cria um novo usuário com as informações fornecidas.\n\nQualquer usuário.",
+                "operationId": "createUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUserRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponseDto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/users/photo": {
+            "post": {
+                "tags": [
+                    "user-controller"
+                ],
+                "summary": "Endpoint para upload de foto do usuário autenticado",
+                "description": "Faz o upload de uma foto para o usuário autenticado.\n\nQualquer usuário logado.",
+                "operationId": "uploadCurrentUserPhoto",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "photo": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": [
+                                    "photo"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UploadPhotoResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/regions": {
+            "post": {
+                "tags": [
+                    "region-controller"
+                ],
+                "summary": "Endpoint para criação de região administrada pela B2B",
+                "description": "Cria uma nova região com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
+                "operationId": "createRegion",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateRegionRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GenericMessageResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/customers": {
+            "post": {
+                "tags": [
+                    "customer-controller"
+                ],
+                "summary": "Endpoint para criação de customer",
+                "description": "Cria um novo customer com as informações fornecidas.\n\nQualquer usuário:\n- CUSTOMER_ADMIN_HAS_ACCESS",
+                "operationId": "createCustomer",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateCustomerRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/customers/{customerId}/assignment": {
+            "post": {
+                "tags": [
+                    "customer-controller"
+                ],
+                "summary": "Endpoint para adicionar atribuição de customer ao usuário autenticado",
+                "description": "Adiciona uma atribuição de customer ao usuário autenticado.\n\nQualquer usuário:\n- CUSTOMER_ADMIN_HAS_ACCESS",
+                "operationId": "assignCustomerAssignmentToAuthUser",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerAssignmentResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cities": {
+            "post": {
+                "tags": [
+                    "city-controller"
+                ],
+                "summary": "Endpoint para criação de cidade",
+                "description": "Cria uma nova cidade com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
+                "operationId": "createCity",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateCityRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GenericMessageResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/backoffice/users": {
+            "get": {
+                "tags": [
+                    "backoffice-user-controller"
+                ],
+                "summary": "Endpoint para buscar usuários backoffice com filtros",
+                "description": "Busca usuários backoffice com filtros opcionais de nome, email, CPF(Por questões de segurança não é possível buscar por partes do CPF) e função.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "operationId": "getAllBackofficeUsersPaginated",
+                "parameters": [
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "cpf",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "role",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "ADMIN_MASTER",
+                                "ADMIN",
+                                "FINANCE",
+                                "OPERATIONS"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageBackofficeUserResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "backoffice-user-controller"
+                ],
+                "summary": "Endpoint para criação de usuário backoffice",
+                "description": "Cria um novo usuário backoffice com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
+                "operationId": "createBackofficeUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBackofficeUserRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BackofficeUserResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/backoffice/economic-groups": {
+            "get": {
+                "tags": [
+                    "backoffice-economic-group-controller"
+                ],
+                "summary": "Endpoint para buscar grupos econômicos com filtros opcionais",
+                "description": "Busca uma lista paginada de grupos econômicos, permitindo filtros opcionais por nome.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
+                "operationId": "getAllEconomicGroupsPaginated",
+                "parameters": [
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageEconomicGroupResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "backoffice-economic-group-controller"
+                ],
+                "summary": "Endpoint para criação de grupo econômico",
+                "description": "Cria um novo grupo econômico com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
+                "operationId": "createEconomicGroup",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateEconomicGroupRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EconomicGroupResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/backoffice/economic-groups/{economicGroupId}": {
+            "get": {
+                "tags": [
+                    "backoffice-economic-group-controller"
+                ],
+                "summary": "Endpoint para buscar grupo econômico por ID",
+                "description": "Busca um grupo econômico pelo ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
+                "operationId": "getEconomicGroupById",
+                "parameters": [
+                    {
+                        "name": "economicGroupId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EconomicGroupResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "backoffice-economic-group-controller"
+                ],
+                "summary": "Endpoint para editar grupo econômico",
+                "description": "Edita um grupo econômico existente com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
+                "operationId": "updateEconomicGroupById",
+                "parameters": [
+                    {
+                        "name": "economicGroupId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateEconomicGroupRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EconomicGroupResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "backoffice-economic-group-controller"
+                ],
+                "summary": "Endpoint para deletar grupo econômico por ID",
+                "description": "Realiza um soft delete no grupo econômico referente ao ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
+                "operationId": "deleteEconomicGroupById",
+                "parameters": [
+                    {
+                        "name": "economicGroupId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/backoffice/economic-groups/{economicGroupId}/assignment/{userId}": {
+            "post": {
+                "tags": [
+                    "backoffice-economic-group-controller"
+                ],
+                "summary": "Endpoint para atribuir um grupo econômico a um usuário",
+                "description": "Adiciona uma atribuição de grupo econômico ao usuário com o ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN\n- BACKOFFICE_ADMIN_MASTER",
+                "operationId": "assignEconomicGroupAssignmentToUser",
+                "parameters": [
+                    {
+                        "name": "economicGroupId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EconomicGroupAssignmentResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/backoffice/customers": {
+            "get": {
+                "tags": [
+                    "backoffice-customer-controller"
+                ],
+                "summary": "Endpoint para buscar Customers com filtros opcionais",
+                "description": "Busca uma lista paginada de customers, permitindo filtros opcionais por número de documento (Por questões de segurança não é possível buscar por partes do número de documento), razão social, tipo e status do customer.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "operationId": "getAllCustomersPaginated",
+                "parameters": [
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    },
+                    {
+                        "name": "documentNumber",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "companyName",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "HOTEL",
+                                "RESTAURANT",
+                                "OTHER"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "APPROVED",
+                                "WAITING",
+                                "BLOCKED",
+                                "REJECTED"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageCustomerResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "backoffice-customer-controller"
+                ],
+                "summary": "Endpoint para criação de customer",
+                "description": "Cria um novo customer com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "operationId": "createCustomer_1",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateCustomerRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/backoffice/customers/{customerId}/assignment/{userId}": {
+            "post": {
+                "tags": [
+                    "backoffice-customer-controller"
+                ],
+                "summary": "Endpoint para adicionar atribuição de customer a um usuário específico",
+                "description": "Adiciona uma atribuição de customer ao usuário referente ao userId informado\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "operationId": "assignCustomerAssignmentToUser",
+                "parameters": [
+                    {
+                        "name": "customerId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerAssignmentResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/temp-password-challenge": {
+            "post": {
+                "tags": [
+                    "Public"
+                ],
+                "summary": "Endpoint público de desafio de senha temporária",
+                "description": "Altera a senha temporária do usuário com CPF, senha atual(senha aleatória) e nova senha.",
+                "operationId": "temporaryPasswordAuthChallenge",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TemporaryPasswordAuthChallengeRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GenericMessageResponseDto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Public"
+                ],
+                "summary": "Endpoint público de login",
+                "description": "Realiza o login do usuário com CPF e senha.",
+                "operationId": "login",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponseDto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/auth/forgot-password": {
+            "post": {
+                "tags": [
+                    "Public"
+                ],
+                "summary": "Endpoint público de esqueci minha senha",
+                "description": "Inicia o processo de recuperação de senha enviando um e-mail com instruções.",
+                "operationId": "forgotPassword",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ForgotPasswordRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GenericMessageResponseDto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/auth/confirm-forgot-password": {
+            "post": {
+                "tags": [
+                    "Public"
+                ],
+                "summary": "Endpoint público de finalização do processo de esqueci minha senha",
+                "description": "Altera a senha do usuário com base em CPF, nova senha e código de confirmação recebido por e-mail.",
+                "operationId": "confirmForgotPassword",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConfirmForgotPasswordRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GenericMessageResponseDto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/auth/confirm-email": {
+            "post": {
+                "tags": [
+                    "Public"
+                ],
+                "summary": "Endpoint público de confirmação de e-mail",
+                "description": "Confirma o e-mail do usuário com CPF e código de confirmação.",
+                "operationId": "confirmEmail",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ConfirmEmailRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GenericMessageResponseDto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/auth/change-password": {
+            "post": {
+                "tags": [
+                    "auth-controller"
+                ],
+                "summary": "Endpoint de alteração de senha",
+                "description": "Altera a senha do usuário autenticado.\n\nQualquer usuário logado.",
+                "operationId": "changePassword",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePasswordRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GenericMessageResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/current": {
+            "get": {
+                "tags": [
+                    "user-controller"
+                ],
+                "summary": "Endpoint para obter informações do usuário autenticado",
+                "description": "Retorna as informações do usuário autenticado.\n\nQualquer usuário logado.",
+                "operationId": "getCurrentUser",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CreateCustomerRequestDto": {
+                "type": "object",
+                "properties": {
+                    "documentNumber": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "companyName": {
+                        "type": "string",
+                        "maxLength": 300,
+                        "minLength": 0
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "HOTEL",
+                            "RESTAURANT",
+                            "OTHER"
+                        ]
+                    },
+                    "offersFood": {
+                        "type": "boolean"
+                    },
+                    "offersUniform": {
+                        "type": "boolean"
+                    },
+                    "foodConsiderations": {
+                        "type": "string",
+                        "maxLength": 500,
+                        "minLength": 0
+                    },
+                    "uniformConsiderations": {
+                        "type": "string",
+                        "maxLength": 500,
+                        "minLength": 0
+                    },
+                    "addressCode": {
+                        "type": "string",
+                        "maxLength": 8,
+                        "minLength": 0
+                    },
+                    "stateCode": {
+                        "type": "string",
+                        "enum": [
+                            "AC",
+                            "AL",
+                            "AP",
+                            "AM",
+                            "BA",
+                            "CE",
+                            "DF",
+                            "ES",
+                            "GO",
+                            "MA",
+                            "MT",
+                            "MS",
+                            "MG",
+                            "PA",
+                            "PB",
+                            "PR",
+                            "PE",
+                            "PI",
+                            "RJ",
+                            "RN",
+                            "RS",
+                            "RO",
+                            "RR",
+                            "SC",
+                            "SP",
+                            "SE",
+                            "TO"
+                        ]
+                    },
+                    "addressCity": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "addressDistrict": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "addressStreet": {
+                        "type": "string",
+                        "maxLength": 120,
+                        "minLength": 0
+                    },
+                    "addressNumber": {
+                        "type": "string",
+                        "maxLength": 10,
+                        "minLength": 0
+                    },
+                    "addressComplement": {
+                        "type": "string",
+                        "maxLength": 60,
+                        "minLength": 0
+                    },
+                    "notes": {
+                        "type": "string",
+                        "maxLength": 500,
+                        "minLength": 0
+                    }
+                },
+                "required": [
+                    "addressCity",
+                    "addressCode",
+                    "addressDistrict",
+                    "addressNumber",
+                    "addressStreet",
+                    "companyName",
+                    "documentNumber",
+                    "stateCode",
+                    "type"
+                ]
+            },
+            "CityResponseDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "stateCode": {
+                        "type": "string",
+                        "enum": [
+                            "AC",
+                            "AL",
+                            "AP",
+                            "AM",
+                            "BA",
+                            "CE",
+                            "DF",
+                            "ES",
+                            "GO",
+                            "MA",
+                            "MT",
+                            "MS",
+                            "MG",
+                            "PA",
+                            "PB",
+                            "PR",
+                            "PE",
+                            "PI",
+                            "RJ",
+                            "RN",
+                            "RS",
+                            "RO",
+                            "RR",
+                            "SC",
+                            "SP",
+                            "SE",
+                            "TO"
+                        ]
+                    },
+                    "regionId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            },
+            "CustomerAssignmentResponseDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "ADMIN",
+                            "RH",
+                            "FINANCE",
+                            "OPERATIONS"
+                        ]
+                    },
+                    "scope": {
+                        "type": "string",
+                        "enum": [
+                            "ECONOMIC_GROUP",
+                            "CUSTOMER"
+                        ]
+                    },
+                    "customers": {
+                        "type": "array",
+                        "items": {}
+                    }
+                }
+            },
+            "CustomerResponseDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "assignments": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CustomerAssignmentResponseDto"
+                        }
+                    },
+                    "economicGroup": {
+                        "$ref": "#/components/schemas/EconomicGroupResponseDto"
+                    },
+                    "documentNumber": {
+                        "type": "string"
+                    },
+                    "companyName": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "HOTEL",
+                            "RESTAURANT",
+                            "OTHER"
+                        ]
+                    },
+                    "offersFood": {
+                        "type": "boolean"
+                    },
+                    "offersUniform": {
+                        "type": "boolean"
+                    },
+                    "foodConsiderations": {
+                        "type": "string"
+                    },
+                    "uniformConsiderations": {
+                        "type": "string"
+                    },
+                    "addressCode": {
+                        "type": "string"
+                    },
+                    "addressCity": {
+                        "$ref": "#/components/schemas/CityResponseDto"
+                    },
+                    "addressDistrict": {
+                        "type": "string"
+                    },
+                    "addressStreet": {
+                        "type": "string"
+                    },
+                    "addressNumber": {
+                        "type": "string"
+                    },
+                    "addressComplement": {
+                        "type": "string"
+                    },
+                    "notes": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "APPROVED",
+                            "WAITING",
+                            "BLOCKED",
+                            "REJECTED"
+                        ]
+                    }
+                }
+            },
+            "EconomicGroupResponseDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "customers": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                }
+            },
+            "UpdateBackofficeUserRequestDto": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "maxLength": 254,
+                        "minLength": 0
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 150,
+                        "minLength": 0
+                    },
+                    "phone": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "ADMIN_MASTER",
+                            "ADMIN",
+                            "FINANCE",
+                            "OPERATIONS"
+                        ]
+                    }
+                },
+                "required": [
+                    "email",
+                    "name",
+                    "phone",
+                    "role"
+                ]
+            },
+            "GenericMessageResponseDto": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UploadPhotoResponseDto": {
+                "type": "object",
+                "properties": {
+                    "photoUrl": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateUserRequestDto": {
+                "type": "object",
+                "properties": {
+                    "cpf": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "password": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "email": {
+                        "type": "string",
+                        "maxLength": 254,
+                        "minLength": 0
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 150,
+                        "minLength": 0
+                    },
+                    "phone": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "BACKOFFICE",
+                            "CUSTOMER",
+                            "SERVICE_PROVIDER"
+                        ]
+                    }
+                },
+                "required": [
+                    "cpf",
+                    "email",
+                    "name",
+                    "password",
+                    "phone",
+                    "type"
+                ]
+            },
+            "UserResponseDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "cpf": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "BACKOFFICE",
+                            "CUSTOMER",
+                            "SERVICE_PROVIDER"
+                        ]
+                    }
+                }
+            },
+            "CreateRegionRequestDto": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 30,
+                        "minLength": 0
+                    },
+                    "stateCode": {
+                        "type": "string",
+                        "enum": [
+                            "AC",
+                            "AL",
+                            "AP",
+                            "AM",
+                            "BA",
+                            "CE",
+                            "DF",
+                            "ES",
+                            "GO",
+                            "MA",
+                            "MT",
+                            "MS",
+                            "MG",
+                            "PA",
+                            "PB",
+                            "PR",
+                            "PE",
+                            "PI",
+                            "RJ",
+                            "RN",
+                            "RS",
+                            "RO",
+                            "RR",
+                            "SC",
+                            "SP",
+                            "SE",
+                            "TO"
+                        ]
+                    }
+                },
+                "required": [
+                    "name",
+                    "stateCode"
+                ]
+            },
+            "CreateCityRequestDto": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 30,
+                        "minLength": 0
+                    },
+                    "stateCode": {
+                        "type": "string",
+                        "enum": [
+                            "AC",
+                            "AL",
+                            "AP",
+                            "AM",
+                            "BA",
+                            "CE",
+                            "DF",
+                            "ES",
+                            "GO",
+                            "MA",
+                            "MT",
+                            "MS",
+                            "MG",
+                            "PA",
+                            "PB",
+                            "PR",
+                            "PE",
+                            "PI",
+                            "RJ",
+                            "RN",
+                            "RS",
+                            "RO",
+                            "RR",
+                            "SC",
+                            "SP",
+                            "SE",
+                            "TO"
+                        ]
+                    },
+                    "regionId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "required": [
+                    "name",
+                    "stateCode"
+                ]
+            },
+            "CreateBackofficeUserRequestDto": {
+                "type": "object",
+                "properties": {
+                    "cpf": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "email": {
+                        "type": "string",
+                        "maxLength": 254,
+                        "minLength": 0
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 150,
+                        "minLength": 0
+                    },
+                    "phone": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "ADMIN_MASTER",
+                            "ADMIN",
+                            "FINANCE",
+                            "OPERATIONS"
+                        ]
+                    }
+                },
+                "required": [
+                    "cpf",
+                    "email",
+                    "name",
+                    "phone",
+                    "role"
+                ]
+            },
+            "BackofficeUserResponseDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "cpf": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "BACKOFFICE",
+                            "CUSTOMER",
+                            "SERVICE_PROVIDER"
+                        ]
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "ADMIN_MASTER",
+                            "ADMIN",
+                            "FINANCE",
+                            "OPERATIONS"
+                        ]
+                    },
+                    "profileImageUrl": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateEconomicGroupRequestDto": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 300,
+                        "minLength": 0
+                    }
+                },
+                "required": [
+                    "name"
+                ]
+            },
+            "EconomicGroupAssignmentResponseDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "ADMIN",
+                            "RH",
+                            "FINANCE",
+                            "OPERATIONS"
+                        ]
+                    },
+                    "scope": {
+                        "type": "string",
+                        "enum": [
+                            "ECONOMIC_GROUP",
+                            "CUSTOMER"
+                        ]
+                    },
+                    "economicGroup": {
+                        "$ref": "#/components/schemas/EconomicGroupResponseDto"
+                    }
+                }
+            },
+            "TemporaryPasswordAuthChallengeRequestDto": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "password": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "newPassword": {
+                        "type": "string",
+                        "maxLength": 2147483647,
+                        "minLength": 6
+                    }
+                },
+                "required": [
+                    "newPassword",
+                    "password",
+                    "username"
+                ]
+            },
+            "LoginRequestDto": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "password": {
+                        "type": "string",
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "password",
+                    "username"
+                ]
+            },
+            "LoginResponseDto": {
+                "type": "object",
+                "properties": {
+                    "idToken": {
+                        "type": "string"
+                    },
+                    "accessToken": {
+                        "type": "string"
+                    },
+                    "refreshToken": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ForgotPasswordRequestDto": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "username"
+                ]
+            },
+            "ConfirmForgotPasswordRequestDto": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "newPassword": {
+                        "type": "string",
+                        "maxLength": 2147483647,
+                        "minLength": 6
+                    },
+                    "confirmationCode": {
+                        "type": "string",
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "confirmationCode",
+                    "newPassword",
+                    "username"
+                ]
+            },
+            "ConfirmEmailRequestDto": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "confirmationCode": {
+                        "type": "string",
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "confirmationCode",
+                    "username"
+                ]
+            },
+            "ChangePasswordRequestDto": {
+                "type": "object",
+                "properties": {
+                    "oldPassword": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "newPassword": {
+                        "type": "string",
+                        "maxLength": 2147483647,
+                        "minLength": 6
+                    }
+                },
+                "required": [
+                    "newPassword",
+                    "oldPassword"
+                ]
+            },
+            "Pageable": {
+                "type": "object",
+                "properties": {
+                    "page": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 1
+                    },
+                    "sort": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "PageBackofficeUserResponseDto": {
+                "type": "object",
+                "properties": {
+                    "totalElements": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BackofficeUserResponseDto"
+                        }
+                    },
+                    "number": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sort": {
+                        "$ref": "#/components/schemas/SortObject"
+                    },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageable": {
+                        "$ref": "#/components/schemas/PageableObject"
+                    },
+                    "empty": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "PageableObject": {
+                "type": "object",
+                "properties": {
+                    "offset": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "sort": {
+                        "$ref": "#/components/schemas/SortObject"
+                    },
+                    "paged": {
+                        "type": "boolean"
+                    },
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "unpaged": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "SortObject": {
+                "type": "object",
+                "properties": {
+                    "empty": {
+                        "type": "boolean"
+                    },
+                    "sorted": {
+                        "type": "boolean"
+                    },
+                    "unsorted": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "PageEconomicGroupResponseDto": {
+                "type": "object",
+                "properties": {
+                    "totalElements": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EconomicGroupResponseDto"
+                        }
+                    },
+                    "number": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sort": {
+                        "$ref": "#/components/schemas/SortObject"
+                    },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageable": {
+                        "$ref": "#/components/schemas/PageableObject"
+                    },
+                    "empty": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "PageCustomerResponseDto": {
+                "type": "object",
+                "properties": {
+                    "totalElements": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CustomerResponseDto"
+                        }
+                    },
+                    "number": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sort": {
+                        "$ref": "#/components/schemas/SortObject"
+                    },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageable": {
+                        "$ref": "#/components/schemas/PageableObject"
+                    },
+                    "empty": {
+                        "type": "boolean"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearer-token": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
