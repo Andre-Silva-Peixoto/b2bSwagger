@@ -2,7 +2,7 @@
     "openapi": "3.1.0",
     "info": {
         "title": "B2B Hotel API",
-        "description": "    Nova API do B2B Hotel.\n\n    Roles dos usuários:\n\n    Backoffice:\n    * BACKOFFICE_ADMIN_MASTER (Verificação JWT)\n      - UserType = BACKOFFICE\n      - Role = ADMIN_MASTER\n    * BACKOFFICE_ADMIN (Verificação JWT)\n      - UserType = BACKOFFICE\n      - Role = ADMIN\n    * BACKOFFICE_FINANCE (Verificação JWT)\n      - UserType = BACKOFFICE\n      - Role = FINANCE\n    * BACKOFFICE_OPERATIONS: (Verificação JWT)\n      - UserType = BACKOFFICE\n      - Role = OPERATIONS\n\n    Customer:\n    * CUSTOMER_ADMIN (Verificação JWT)\n      - UserType = CUSTOMER\n      - Role = ADMIN\n      - Status = APPROVED\n    * CUSTOMER_ADMIN_HAS_ACCESS (Verificação Interna)\n      - UserType = CUSTOMER\n      - Role = ADMIN\n      - Status = APPROVED\n      - Customers[] Possui o id do customer que está na pathVariable: {customerId} associado ao seu CustomerAssignment ou ao\n        EconomicGroup que está associado ao seu CustomerAssignment.\n",
+        "description": "    Nova API do B2B Hotel.\n\n    Roles dos usuários:\n\n    Backoffice:\n    * BACKOFFICE_ADMIN_MASTER (Verificação JWT)\n      - UserType = BACKOFFICE\n      - Role = ADMIN_MASTER\n    * BACKOFFICE_ADMIN (Verificação JWT)\n      - UserType = BACKOFFICE\n      - Role = ADMIN\n    * BACKOFFICE_FINANCE (Verificação JWT)\n      - UserType = BACKOFFICE\n      - Role = FINANCE\n    * BACKOFFICE_OPERATIONS: (Verificação JWT)\n      - UserType = BACKOFFICE\n      - Role = OPERATIONS\n\n    Customer:\n    * CUSTOMER_ADMIN (Verificação JWT)\n      - UserType = CUSTOMER\n      - Role = ADMIN\n      - Status = APPROVED\n    * CUSTOMER_ADMIN_HAS_ACCESS (Verificação Interna)\n          * Role usada só internamente, não deve ser enviada para o cognito. *\n      - UserType = CUSTOMER\n      - Role = ADMIN\n      - Status = APPROVED\n      - Customers[] Possui o id do customer que está na pathVariable: {customerId} associado ao seu CustomerAssignment ou ao\n        EconomicGroup que está associado ao seu CustomerAssignment.\n",
         "version": "v0.0.1"
     },
     "servers": [
@@ -23,7 +23,7 @@
                     "customer-controller"
                 ],
                 "summary": "Endpoint para buscar Customer por ID",
-                "description": "Busca um customer pelo ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS\n- CUSTOMER_ADMIN_HAS_ACCESS",
+                "description": "Busca um customer pelo ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- CUSTOMER_ADMIN_HAS_ACCESS",
                 "operationId": "getCustomerById",
                 "parameters": [
                     {
@@ -54,7 +54,7 @@
                     "customer-controller"
                 ],
                 "summary": "Endpoint para editar Customer",
-                "description": "Edita um customer existente com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS\n- CUSTOMER_ADMIN_HAS_ACCESS",
+                "description": "Edita um customer existente com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- CUSTOMER_ADMIN_HAS_ACCESS",
                 "operationId": "updateCustomer",
                 "parameters": [
                     {
@@ -97,7 +97,7 @@
                     "backoffice-user-controller"
                 ],
                 "summary": "Endpoint para buscar usuário backoffice por ID",
-                "description": "Busca um usuário backoffice pelo ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "description": "Busca um usuário backoffice pelo ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
                 "operationId": "getBackofficeUserById",
                 "parameters": [
                     {
@@ -246,7 +246,7 @@
                     "backoffice-customer-controller"
                 ],
                 "summary": "Endpoint para buscar Customer por ID",
-                "description": "Busca um customer pelo ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "description": "Busca um customer pelo ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
                 "operationId": "getCustomerById_1",
                 "parameters": [
                     {
@@ -277,7 +277,7 @@
                     "backoffice-customer-controller"
                 ],
                 "summary": "Endpoint para editar Customer",
-                "description": "Edita um customer existente com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "description": "Edita um customer existente com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
                 "operationId": "updateCustomer_1",
                 "parameters": [
                     {
@@ -318,7 +318,7 @@
                     "backoffice-customer-controller"
                 ],
                 "summary": "Endpoint para deletar Customer por ID",
-                "description": "Realiza um soft delete no customer referente ao ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "description": "Realiza um soft delete no customer referente ao ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
                 "operationId": "deleteCustomerById",
                 "parameters": [
                     {
@@ -344,7 +344,7 @@
                     "backoffice-customer-controller"
                 ],
                 "summary": "Endpoint para atualizar o grupo econômico do customer",
-                "description": "Atualiza o grupo econômico do customer com o ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "description": "Atualiza o grupo econômico do customer com o ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
                 "operationId": "assignEconomicGroupToCustomer",
                 "parameters": [
                     {
@@ -491,7 +491,7 @@
                     "customer-controller"
                 ],
                 "summary": "Endpoint para criação de customer",
-                "description": "Cria um novo customer com as informações fornecidas.\n\nQualquer usuário:\n- CUSTOMER_ADMIN_HAS_ACCESS",
+                "description": "Cria um novo customer com as informações fornecidas.\n\nQualquer usuário logado",
                 "operationId": "createCustomer",
                 "requestBody": {
                     "content": {
@@ -523,7 +523,7 @@
                     "customer-controller"
                 ],
                 "summary": "Endpoint para adicionar atribuição de customer ao usuário autenticado",
-                "description": "Adiciona uma atribuição de customer ao usuário autenticado.\n\nQualquer usuário:\n- CUSTOMER_ADMIN_HAS_ACCESS",
+                "description": "Adiciona uma atribuição de customer ao usuário autenticado.\n\nQualquer usuário logado",
                 "operationId": "assignCustomerAssignmentToAuthUser",
                 "parameters": [
                     {
@@ -588,7 +588,7 @@
                     "backoffice-user-controller"
                 ],
                 "summary": "Endpoint para buscar usuários backoffice com filtros",
-                "description": "Busca usuários backoffice com filtros opcionais de nome, email, CPF(Por questões de segurança não é possível buscar por partes do CPF) e função.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "description": "Busca usuários backoffice com filtros opcionais de nome, email, CPF(Por questões de segurança não é possível buscar por partes do CPF) e função.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
                 "operationId": "getAllBackofficeUsersPaginated",
                 "parameters": [
                     {
@@ -898,7 +898,7 @@
                     "backoffice-customer-controller"
                 ],
                 "summary": "Endpoint para buscar Customers com filtros opcionais",
-                "description": "Busca uma lista paginada de customers, permitindo filtros opcionais por número de documento (Por questões de segurança não é possível buscar por partes do número de documento), razão social, tipo e status do customer.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "description": "Busca uma lista paginada de customers, permitindo filtros opcionais por número de documento (Por questões de segurança não é possível buscar por partes do número de documento), razão social, tipo e status do customer.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
                 "operationId": "getAllCustomersPaginated",
                 "parameters": [
                     {
@@ -971,7 +971,7 @@
                     "backoffice-customer-controller"
                 ],
                 "summary": "Endpoint para criação de customer",
-                "description": "Cria um novo customer com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "description": "Cria um novo customer com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
                 "operationId": "createCustomer_1",
                 "requestBody": {
                     "content": {
@@ -1003,7 +1003,7 @@
                     "backoffice-customer-controller"
                 ],
                 "summary": "Endpoint para adicionar atribuição de customer a um usuário específico",
-                "description": "Adiciona uma atribuição de customer ao usuário referente ao userId informado\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- BACKOFFICE_FINANCE\n- BACKOFFICE_OPERATIONS",
+                "description": "Adiciona uma atribuição de customer ao usuário referente ao userId informado\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
                 "operationId": "assignCustomerAssignmentToUser",
                 "parameters": [
                     {
@@ -2042,12 +2042,6 @@
                         "type": "integer",
                         "format": "int32"
                     },
-                    "first": {
-                        "type": "boolean"
-                    },
-                    "last": {
-                        "type": "boolean"
-                    },
                     "size": {
                         "type": "integer",
                         "format": "int32"
@@ -2072,6 +2066,12 @@
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
                     "empty": {
                         "type": "boolean"
                     }
@@ -2090,11 +2090,11 @@
                     "paged": {
                         "type": "boolean"
                     },
-                    "pageNumber": {
+                    "pageSize": {
                         "type": "integer",
                         "format": "int32"
                     },
-                    "pageSize": {
+                    "pageNumber": {
                         "type": "integer",
                         "format": "int32"
                     },
@@ -2128,12 +2128,6 @@
                         "type": "integer",
                         "format": "int32"
                     },
-                    "first": {
-                        "type": "boolean"
-                    },
-                    "last": {
-                        "type": "boolean"
-                    },
                     "size": {
                         "type": "integer",
                         "format": "int32"
@@ -2158,6 +2152,12 @@
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
                     "empty": {
                         "type": "boolean"
                     }
@@ -2173,12 +2173,6 @@
                     "totalPages": {
                         "type": "integer",
                         "format": "int32"
-                    },
-                    "first": {
-                        "type": "boolean"
-                    },
-                    "last": {
-                        "type": "boolean"
                     },
                     "size": {
                         "type": "integer",
@@ -2203,6 +2197,12 @@
                     },
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
+                    },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
                     },
                     "empty": {
                         "type": "boolean"
