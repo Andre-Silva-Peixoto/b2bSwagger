@@ -17,6 +17,237 @@
         }
     ],
     "paths": {
+        "/service-providers/{serviceProviderId}/expertise": {
+            "put": {
+                "tags": [
+                    "service-provider-controller"
+                ],
+                "summary": "Endpoint para atualização das áreas de experiência do prestador de serviço",
+                "description": "Atualiza a expertise do prestador de serviço com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- SERVICE_PROVIDER_HAS_ACCESS",
+                "operationId": "updateServiceProviderExpertise",
+                "parameters": [
+                    {
+                        "name": "serviceProviderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateServiceProviderExpertisesRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceProviderResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/service-providers/{serviceProviderId}/experience-audio": {
+            "put": {
+                "tags": [
+                    "service-provider-controller"
+                ],
+                "summary": "Endpoint para atualização do áudio de experiência do prestador de serviço",
+                "description": "Atualiza o áudio de experiência do prestador de serviço.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- SERVICE_PROVIDER_HAS_ACCESS",
+                "operationId": "updateServiceProviderAudioExperience",
+                "parameters": [
+                    {
+                        "name": "serviceProviderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "audio": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": [
+                                    "audio"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceProviderResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/service-providers/{serviceProviderId}/curriculum": {
+            "put": {
+                "tags": [
+                    "service-provider-controller"
+                ],
+                "summary": "Endpoint para atualização do currículo do prestador de serviço",
+                "description": "Atualiza o currículo do prestador de serviço com o arquivo fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- SERVICE_PROVIDER_HAS_ACCESS",
+                "operationId": "updateServiceProviderCurriculum",
+                "parameters": [
+                    {
+                        "name": "serviceProviderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "curriculum": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": [
+                                    "curriculum"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceProviderResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/service-providers/{serviceProviderId}/cover-letter": {
+            "put": {
+                "tags": [
+                    "service-provider-controller"
+                ],
+                "summary": "Endpoint para atualização da carta de apresentação do prestador de serviço",
+                "description": "Atualiza a carta de apresentação do prestador de serviço com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- SERVICE_PROVIDER_HAS_ACCESS",
+                "operationId": "updateServiceProviderCoverLetter",
+                "parameters": [
+                    {
+                        "name": "serviceProviderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateServiceProviderCoverLetterRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceProviderResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/service-providers/{serviceProviderId}/address": {
+            "put": {
+                "tags": [
+                    "service-provider-controller"
+                ],
+                "summary": "Endpoint para atualização do endereço do prestador de serviço",
+                "description": "Atualiza o endereço do prestador de serviço com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- SERVICE_PROVIDER_HAS_ACCESS",
+                "operationId": "updateServiceProviderAddress",
+                "parameters": [
+                    {
+                        "name": "serviceProviderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateServiceProviderAddressRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceProviderResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/customers/{customerId}": {
             "get": {
                 "tags": [
@@ -91,7 +322,7 @@
                 }
             }
         },
-        "/backoffice/users/{id}": {
+        "/backoffice/users/{userId}": {
             "get": {
                 "tags": [
                     "backoffice-user-controller"
@@ -101,7 +332,7 @@
                 "operationId": "getBackofficeUserById",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "userId",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -132,7 +363,7 @@
                 "operationId": "updateBackOfficeUser",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "userId",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -173,7 +404,7 @@
                 "operationId": "deleteBackofficeUser",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "userId",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -189,7 +420,7 @@
                 }
             }
         },
-        "/backoffice/users/{id}/photo": {
+        "/backoffice/users/{userId}/photo": {
             "put": {
                 "tags": [
                     "backoffice-user-controller"
@@ -199,7 +430,7 @@
                 "operationId": "uploadBackofficeUserPhoto",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "userId",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -423,7 +654,7 @@
                 "operationId": "uploadCurrentUserPhoto",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "type": "object",
                                 "properties": {
@@ -446,6 +677,28 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/UploadPhotoResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/service-providers": {
+            "post": {
+                "tags": [
+                    "service-provider-controller"
+                ],
+                "summary": "Endpoint self service para criação de prestador de serviço",
+                "description": "Cria um novo prestador de serviço para o usuário autenticado\n\nQualquer usuário logado com o Type 'SERVICE_PROVIDER'",
+                "operationId": "createServiceProviderToAuthUser",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceProviderResponseDto"
                                 }
                             }
                         }
@@ -491,7 +744,7 @@
                     "customer-controller"
                 ],
                 "summary": "Endpoint para criação de customer",
-                "description": "Cria um novo customer com as informações fornecidas.\n\nQualquer usuário logado",
+                "description": "Cria um novo customer com as informações fornecidas.\n\nQualquer usuário com o type 'CUSTOMER'",
                 "operationId": "createCustomer",
                 "requestBody": {
                     "content": {
@@ -517,13 +770,13 @@
                 }
             }
         },
-        "/customers/{customerId}/assignment": {
+        "/customer-assignments/{customerId}": {
             "post": {
                 "tags": [
-                    "customer-controller"
+                    "customer-assignment-controller"
                 ],
                 "summary": "Endpoint para adicionar atribuição de customer ao usuário autenticado",
-                "description": "Adiciona uma atribuição de customer ao usuário autenticado.\n\nQualquer usuário logado",
+                "description": "Adiciona uma atribuição de customer ao usuário autenticado.\n\nQualquer usuário logado com o Type 'CUSTOMER'",
                 "operationId": "assignCustomerAssignmentToAuthUser",
                 "parameters": [
                     {
@@ -850,48 +1103,6 @@
                 }
             }
         },
-        "/backoffice/economic-groups/{economicGroupId}/assignment/{userId}": {
-            "post": {
-                "tags": [
-                    "backoffice-economic-group-controller"
-                ],
-                "summary": "Endpoint para atribuir um grupo econômico a um usuário",
-                "description": "Adiciona uma atribuição de grupo econômico ao usuário com o ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN\n- BACKOFFICE_ADMIN_MASTER",
-                "operationId": "assignEconomicGroupAssignmentToUser",
-                "parameters": [
-                    {
-                        "name": "economicGroupId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    },
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EconomicGroupAssignmentResponseDto"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/backoffice/customers": {
             "get": {
                 "tags": [
@@ -997,34 +1208,54 @@
                 }
             }
         },
-        "/backoffice/customers/{customerId}/assignment/{userId}": {
+        "/backoffice/customer-assignments/economic-group": {
             "post": {
                 "tags": [
-                    "backoffice-customer-controller"
+                    "backoffice-customer-assignment-controller"
+                ],
+                "summary": "Endpoint para atribuir um grupo econômico a um usuário",
+                "description": "Adiciona uma atribuição de grupo econômico ao usuário com o ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN\n- BACKOFFICE_ADMIN_MASTER",
+                "operationId": "assignEconomicGroupAssignmentToUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AssignEconomicGroupAssignmentToUserRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EconomicGroupAssignmentResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/backoffice/customer-assignments/customer": {
+            "post": {
+                "tags": [
+                    "backoffice-customer-assignment-controller"
                 ],
                 "summary": "Endpoint para adicionar atribuição de customer a um usuário específico",
                 "description": "Adiciona uma atribuição de customer ao usuário referente ao userId informado\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN",
                 "operationId": "assignCustomerAssignmentToUser",
-                "parameters": [
-                    {
-                        "name": "customerId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    },
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AssignCustomerAssignmentToUserRequestDto"
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1257,10 +1488,437 @@
                     }
                 }
             }
+        },
+        "/catalog/services": {
+            "get": {
+                "tags": [
+                    "catalog-service-controller"
+                ],
+                "summary": "Endpoint para listar todos os serviços disponíveis",
+                "description": "Retorna uma lista paginada de todos os serviços disponíveis.\n\nQualquer usuário logado com o Type 'SERVICE_PROVIDER'",
+                "operationId": "getAllServicesPaginated",
+                "parameters": [
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "areaId",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageCatalogServiceResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "ServiceProviderExpertisesRequestDto": {
+                "type": "object",
+                "properties": {
+                    "catalogServiceId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "timeExperience": {
+                        "type": "string",
+                        "enum": [
+                            "LESS_THAN_6_MONTHS",
+                            "FROM_6_MONTHS_TO_1_YEAR",
+                            "FROM_1_YEAR_TO_2_YEARS",
+                            "FROM_2_YEARS_TO_5_YEARS",
+                            "MORE_THAN_5_YEARS"
+                        ]
+                    }
+                },
+                "required": [
+                    "catalogServiceId",
+                    "timeExperience"
+                ]
+            },
+            "UpdateServiceProviderExpertisesRequestDto": {
+                "type": "object",
+                "properties": {
+                    "serviceProviderExpertises": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ServiceProviderExpertisesRequestDto"
+                        },
+                        "maxItems": 2147483647,
+                        "minItems": 1
+                    }
+                },
+                "required": [
+                    "serviceProviderExpertises"
+                ]
+            },
+            "CatalogAreaServiceResponseDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CatalogServiceResponseDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "serviceArea": {
+                        "$ref": "#/components/schemas/CatalogAreaServiceResponseDto"
+                    },
+                    "defaultValue": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "defaultPercValue": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "defaultPercValueOther": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                }
+            },
+            "CityResponseDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "stateCode": {
+                        "type": "string",
+                        "enum": [
+                            "AC",
+                            "AL",
+                            "AP",
+                            "AM",
+                            "BA",
+                            "CE",
+                            "DF",
+                            "ES",
+                            "GO",
+                            "MA",
+                            "MT",
+                            "MS",
+                            "MG",
+                            "PA",
+                            "PB",
+                            "PR",
+                            "PE",
+                            "PI",
+                            "RJ",
+                            "RN",
+                            "RS",
+                            "RO",
+                            "RR",
+                            "SC",
+                            "SP",
+                            "SE",
+                            "TO"
+                        ]
+                    },
+                    "regionId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            },
+            "ServiceProviderExpertiseResponseDto": {
+                "type": "object",
+                "properties": {
+                    "serviceExpertise": {
+                        "$ref": "#/components/schemas/CatalogServiceResponseDto"
+                    },
+                    "timeExperience": {
+                        "type": "string",
+                        "enum": [
+                            "LESS_THAN_6_MONTHS",
+                            "FROM_6_MONTHS_TO_1_YEAR",
+                            "FROM_1_YEAR_TO_2_YEARS",
+                            "FROM_2_YEARS_TO_5_YEARS",
+                            "MORE_THAN_5_YEARS"
+                        ]
+                    }
+                }
+            },
+            "ServiceProviderResponseDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/UserResponseDto"
+                    },
+                    "cpfBankValidation": {
+                        "type": "string"
+                    },
+                    "bankCode": {
+                        "type": "string"
+                    },
+                    "bankAccountType": {
+                        "type": "string",
+                        "enum": [
+                            "CONTA_CORRENTE",
+                            "CONTA_POUPANCA",
+                            "CONTA_PAGAMENTO",
+                            "CONTA_FACIL",
+                            "ENTIDADES_PUBLICAS"
+                        ]
+                    },
+                    "bankAgency": {
+                        "type": "string"
+                    },
+                    "bankAccount": {
+                        "type": "string"
+                    },
+                    "pixType": {
+                        "type": "string",
+                        "enum": [
+                            "CPF",
+                            "CNPJ",
+                            "PHONE",
+                            "EMAIL",
+                            "RANDOM_KEY"
+                        ]
+                    },
+                    "clt": {
+                        "type": "boolean"
+                    },
+                    "notes": {
+                        "type": "string"
+                    },
+                    "addressCode": {
+                        "type": "string"
+                    },
+                    "addressCity": {
+                        "$ref": "#/components/schemas/CityResponseDto"
+                    },
+                    "addressDistrict": {
+                        "type": "string"
+                    },
+                    "addressStreet": {
+                        "type": "string"
+                    },
+                    "addressNumber": {
+                        "type": "string"
+                    },
+                    "addressComplement": {
+                        "type": "string"
+                    },
+                    "curriculumEducation": {
+                        "type": "string",
+                        "enum": [
+                            "ELEMENTARY_INCOMPLETE",
+                            "ELEMENTARY_COMPLETE",
+                            "HIGH_SCHOOL_INCOMPLETE",
+                            "HIGH_SCHOOL_COMPLETE",
+                            "TECHNICAL_INCOMPLETE",
+                            "TECHNICAL_COMPLETE",
+                            "UNDERGRADUATE_INCOMPLETE",
+                            "UNDERGRADUATE_COMPLETE",
+                            "SPECIALIZATION_INCOMPLETE",
+                            "SPECIALIZATION_COMPLETE",
+                            "MASTERS_INCOMPLETE",
+                            "MASTERS_COMPLETE"
+                        ]
+                    },
+                    "curriculumNotes": {
+                        "type": "string"
+                    },
+                    "serviceExpertises": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ServiceProviderExpertiseResponseDto"
+                        }
+                    },
+                    "hotelExperiencesNames": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "coverLetter": {
+                        "type": "string"
+                    },
+                    "audioExperienceUrl": {
+                        "type": "string"
+                    },
+                    "curriculumUrl": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UserResponseDto": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "cpf": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "BACKOFFICE",
+                            "CUSTOMER",
+                            "SERVICE_PROVIDER"
+                        ]
+                    },
+                    "profileImageUrl": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateServiceProviderCoverLetterRequestDto": {
+                "type": "object",
+                "properties": {
+                    "coverLetter": {
+                        "type": "string",
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "coverLetter"
+                ]
+            },
+            "UpdateServiceProviderAddressRequestDto": {
+                "type": "object",
+                "properties": {
+                    "addressCode": {
+                        "type": "string",
+                        "maxLength": 8,
+                        "minLength": 0
+                    },
+                    "stateCode": {
+                        "type": "string",
+                        "enum": [
+                            "AC",
+                            "AL",
+                            "AP",
+                            "AM",
+                            "BA",
+                            "CE",
+                            "DF",
+                            "ES",
+                            "GO",
+                            "MA",
+                            "MT",
+                            "MS",
+                            "MG",
+                            "PA",
+                            "PB",
+                            "PR",
+                            "PE",
+                            "PI",
+                            "RJ",
+                            "RN",
+                            "RS",
+                            "RO",
+                            "RR",
+                            "SC",
+                            "SP",
+                            "SE",
+                            "TO"
+                        ]
+                    },
+                    "addressCity": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "addressDistrict": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 0
+                    },
+                    "addressStreet": {
+                        "type": "string",
+                        "maxLength": 120,
+                        "minLength": 0
+                    },
+                    "addressNumber": {
+                        "type": "string",
+                        "maxLength": 10,
+                        "minLength": 0
+                    },
+                    "addressComplement": {
+                        "type": "string",
+                        "maxLength": 60,
+                        "minLength": 0
+                    }
+                },
+                "required": [
+                    "addressCity",
+                    "addressCode",
+                    "addressDistrict",
+                    "addressNumber",
+                    "addressStreet",
+                    "stateCode"
+                ]
+            },
             "CreateCustomerRequestDto": {
                 "type": "object",
                 "properties": {
@@ -1376,54 +2034,6 @@
                     "stateCode",
                     "type"
                 ]
-            },
-            "CityResponseDto": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "stateCode": {
-                        "type": "string",
-                        "enum": [
-                            "AC",
-                            "AL",
-                            "AP",
-                            "AM",
-                            "BA",
-                            "CE",
-                            "DF",
-                            "ES",
-                            "GO",
-                            "MA",
-                            "MT",
-                            "MS",
-                            "MG",
-                            "PA",
-                            "PB",
-                            "PR",
-                            "PE",
-                            "PI",
-                            "RJ",
-                            "RN",
-                            "RS",
-                            "RO",
-                            "RR",
-                            "SC",
-                            "SP",
-                            "SE",
-                            "TO"
-                        ]
-                    },
-                    "regionId": {
-                        "type": "string",
-                        "format": "uuid"
-                    }
-                }
             },
             "CustomerAssignmentResponseDto": {
                 "type": "object",
@@ -1640,35 +2250,6 @@
                     "type"
                 ]
             },
-            "UserResponseDto": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "cpf": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "phone": {
-                        "type": "string"
-                    },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "BACKOFFICE",
-                            "CUSTOMER",
-                            "SERVICE_PROVIDER"
-                        ]
-                    }
-                }
-            },
             "CreateRegionRequestDto": {
                 "type": "object",
                 "properties": {
@@ -1807,29 +2388,8 @@
             "BackofficeUserResponseDto": {
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "cpf": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "phone": {
-                        "type": "string"
-                    },
-                    "type": {
-                        "type": "string",
-                        "enum": [
-                            "BACKOFFICE",
-                            "CUSTOMER",
-                            "SERVICE_PROVIDER"
-                        ]
+                    "user": {
+                        "$ref": "#/components/schemas/UserResponseDto"
                     },
                     "role": {
                         "type": "string",
@@ -1839,9 +2399,6 @@
                             "FINANCE",
                             "OPERATIONS"
                         ]
-                    },
-                    "profileImageUrl": {
-                        "type": "string"
                     }
                 }
             },
@@ -1856,6 +2413,23 @@
                 },
                 "required": [
                     "name"
+                ]
+            },
+            "AssignEconomicGroupAssignmentToUserRequestDto": {
+                "type": "object",
+                "properties": {
+                    "economicGroupId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "userId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "required": [
+                    "economicGroupId",
+                    "userId"
                 ]
             },
             "EconomicGroupAssignmentResponseDto": {
@@ -1885,6 +2459,23 @@
                         "$ref": "#/components/schemas/EconomicGroupResponseDto"
                     }
                 }
+            },
+            "AssignCustomerAssignmentToUserRequestDto": {
+                "type": "object",
+                "properties": {
+                    "customerId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "userId": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                },
+                "required": [
+                    "customerId",
+                    "userId"
+                ]
             },
             "TemporaryPasswordAuthChallengeRequestDto": {
                 "type": "object",
@@ -2031,16 +2622,108 @@
                     }
                 }
             },
-            "PageBackofficeUserResponseDto": {
+            "PageCatalogServiceResponseDto": {
                 "type": "object",
                 "properties": {
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
                     "totalElements": {
                         "type": "integer",
                         "format": "int64"
                     },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CatalogServiceResponseDto"
+                        }
+                    },
+                    "number": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sort": {
+                        "$ref": "#/components/schemas/SortObject"
+                    },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageable": {
+                        "$ref": "#/components/schemas/PageableObject"
+                    },
+                    "empty": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "PageableObject": {
+                "type": "object",
+                "properties": {
+                    "offset": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "sort": {
+                        "$ref": "#/components/schemas/SortObject"
+                    },
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "paged": {
+                        "type": "boolean"
+                    },
+                    "unpaged": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "SortObject": {
+                "type": "object",
+                "properties": {
+                    "empty": {
+                        "type": "boolean"
+                    },
+                    "sorted": {
+                        "type": "boolean"
+                    },
+                    "unsorted": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "PageBackofficeUserResponseDto": {
+                "type": "object",
+                "properties": {
                     "totalPages": {
                         "type": "integer",
                         "format": "int32"
+                    },
+                    "totalElements": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
                     },
                     "size": {
                         "type": "integer",
@@ -2066,53 +2749,7 @@
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
-                    "first": {
-                        "type": "boolean"
-                    },
-                    "last": {
-                        "type": "boolean"
-                    },
                     "empty": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "PageableObject": {
-                "type": "object",
-                "properties": {
-                    "offset": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "sort": {
-                        "$ref": "#/components/schemas/SortObject"
-                    },
-                    "paged": {
-                        "type": "boolean"
-                    },
-                    "pageSize": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "pageNumber": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "unpaged": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "SortObject": {
-                "type": "object",
-                "properties": {
-                    "empty": {
-                        "type": "boolean"
-                    },
-                    "sorted": {
-                        "type": "boolean"
-                    },
-                    "unsorted": {
                         "type": "boolean"
                     }
                 }
@@ -2120,13 +2757,19 @@
             "PageEconomicGroupResponseDto": {
                 "type": "object",
                 "properties": {
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
                     "totalElements": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "totalPages": {
-                        "type": "integer",
-                        "format": "int32"
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
                     },
                     "size": {
                         "type": "integer",
@@ -2152,12 +2795,6 @@
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
-                    "first": {
-                        "type": "boolean"
-                    },
-                    "last": {
-                        "type": "boolean"
-                    },
                     "empty": {
                         "type": "boolean"
                     }
@@ -2166,13 +2803,19 @@
             "PageCustomerResponseDto": {
                 "type": "object",
                 "properties": {
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
                     "totalElements": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "totalPages": {
-                        "type": "integer",
-                        "format": "int32"
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
                     },
                     "size": {
                         "type": "integer",
@@ -2197,12 +2840,6 @@
                     },
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
-                    },
-                    "first": {
-                        "type": "boolean"
-                    },
-                    "last": {
-                        "type": "boolean"
                     },
                     "empty": {
                         "type": "boolean"
