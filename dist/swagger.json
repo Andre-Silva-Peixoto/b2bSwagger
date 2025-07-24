@@ -1430,6 +1430,39 @@
                 "security": []
             }
         },
+        "/auth/refresh-token": {
+            "post": {
+                "tags": [
+                    "Public"
+                ],
+                "summary": "Endpoint público de refresh token",
+                "description": "Atualiza o token de autenticação do usuário.",
+                "operationId": "refreshToken",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RefreshTokenRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponseDto"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
         "/auth/login": {
             "post": {
                 "tags": [
@@ -1609,6 +1642,39 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/UserResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/service-providers/{serviceProviderId}": {
+            "get": {
+                "tags": [
+                    "service-provider-controller"
+                ],
+                "summary": "Endpoint para buscar prestador de serviço por ID",
+                "description": "Busca um prestador de serviço pelo ID fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- SERVICE_PROVIDER_HAS_ACCESS",
+                "operationId": "getServiceProviderById",
+                "parameters": [
+                    {
+                        "name": "serviceProviderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceProviderResponseDto"
                                 }
                             }
                         }
@@ -2656,20 +2722,20 @@
                     "username"
                 ]
             },
-            "LoginRequestDto": {
+            "RefreshTokenRequestDto": {
                 "type": "object",
                 "properties": {
                     "username": {
                         "type": "string",
                         "minLength": 1
                     },
-                    "password": {
+                    "refreshToken": {
                         "type": "string",
                         "minLength": 1
                     }
                 },
                 "required": [
-                    "password",
+                    "refreshToken",
                     "username"
                 ]
             },
@@ -2686,6 +2752,23 @@
                         "type": "string"
                     }
                 }
+            },
+            "LoginRequestDto": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "password": {
+                        "type": "string",
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "password",
+                    "username"
+                ]
             },
             "ForgotPasswordRequestDto": {
                 "type": "object",
@@ -2781,19 +2864,13 @@
             "PageCatalogServiceResponseDto": {
                 "type": "object",
                 "properties": {
-                    "totalPages": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "totalElements": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "first": {
-                        "type": "boolean"
-                    },
-                    "last": {
-                        "type": "boolean"
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
                     },
                     "size": {
                         "type": "integer",
@@ -2819,6 +2896,12 @@
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
                     "empty": {
                         "type": "boolean"
                     }
@@ -2834,12 +2917,6 @@
                     "sort": {
                         "$ref": "#/components/schemas/SortObject"
                     },
-                    "paged": {
-                        "type": "boolean"
-                    },
-                    "unpaged": {
-                        "type": "boolean"
-                    },
                     "pageSize": {
                         "type": "integer",
                         "format": "int32"
@@ -2847,6 +2924,12 @@
                     "pageNumber": {
                         "type": "integer",
                         "format": "int32"
+                    },
+                    "paged": {
+                        "type": "boolean"
+                    },
+                    "unpaged": {
+                        "type": "boolean"
                     }
                 }
             },
@@ -2867,19 +2950,13 @@
             "PageBackofficeUserResponseDto": {
                 "type": "object",
                 "properties": {
-                    "totalPages": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "totalElements": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "first": {
-                        "type": "boolean"
-                    },
-                    "last": {
-                        "type": "boolean"
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
                     },
                     "size": {
                         "type": "integer",
@@ -2905,6 +2982,12 @@
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
                     "empty": {
                         "type": "boolean"
                     }
@@ -2913,19 +2996,13 @@
             "PageEconomicGroupResponseDto": {
                 "type": "object",
                 "properties": {
-                    "totalPages": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "totalElements": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "first": {
-                        "type": "boolean"
-                    },
-                    "last": {
-                        "type": "boolean"
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
                     },
                     "size": {
                         "type": "integer",
@@ -2951,6 +3028,12 @@
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
                     "empty": {
                         "type": "boolean"
                     }
@@ -2959,19 +3042,13 @@
             "PageCustomerResponseDto": {
                 "type": "object",
                 "properties": {
-                    "totalPages": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "totalElements": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "first": {
-                        "type": "boolean"
-                    },
-                    "last": {
-                        "type": "boolean"
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
                     },
                     "size": {
                         "type": "integer",
@@ -2996,6 +3073,12 @@
                     },
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
+                    },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
                     },
                     "empty": {
                         "type": "boolean"
