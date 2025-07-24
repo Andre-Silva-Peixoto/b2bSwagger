@@ -17,6 +17,90 @@
         }
     ],
     "paths": {
+        "/service-providers/{serviceProviderId}/generated-curriculum": {
+            "put": {
+                "tags": [
+                    "service-provider-controller"
+                ],
+                "summary": "Endpoint para atualização do currículo gerado do prestador de serviço",
+                "description": "Atualiza o currículo gerado do prestador de serviço com o arquivo fornecido.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- SERVICE_PROVIDER_HAS_ACCESS",
+                "operationId": "updateServiceProviderGeneratedCurriculum",
+                "parameters": [
+                    {
+                        "name": "serviceProviderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "generatedCurriculum": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "required": [
+                                    "generatedCurriculum"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceProviderResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/service-providers/{serviceProviderId}/finalize-registration": {
+            "put": {
+                "tags": [
+                    "service-provider-controller"
+                ],
+                "summary": "Endpoint para finalizar o cadastro do prestador de serviço",
+                "description": "Finaliza o cadastro do prestador de serviço, verificando se todos os passos obrigatórios foram concluídos.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- SERVICE_PROVIDER_HAS_ACCESS",
+                "operationId": "finalizeServiceProviderRegistration",
+                "parameters": [
+                    {
+                        "name": "serviceProviderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceProviderResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/service-providers/{serviceProviderId}/expertise": {
             "put": {
                 "tags": [
@@ -147,6 +231,49 @@
                             }
                         }
                     }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceProviderResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/service-providers/{serviceProviderId}/curriculum-education": {
+            "put": {
+                "tags": [
+                    "service-provider-controller"
+                ],
+                "summary": "Endpoint para atualização da educação do currículo do prestador de serviço",
+                "description": "Atualiza a educação do currículo do prestador de serviço com as informações fornecidas.\n\nApenas usuários:\n- BACKOFFICE_ADMIN_MASTER\n- BACKOFFICE_ADMIN\n- SERVICE_PROVIDER_HAS_ACCESS",
+                "operationId": "updateServiceProviderCurriculumEducation",
+                "parameters": [
+                    {
+                        "name": "serviceProviderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateServiceProviderCurriculumEducationRequestDto"
+                            }
+                        }
+                    },
+                    "required": true
                 },
                 "responses": {
                     "200": {
@@ -1541,45 +1668,6 @@
     },
     "components": {
         "schemas": {
-            "ServiceProviderExpertisesRequestDto": {
-                "type": "object",
-                "properties": {
-                    "catalogServiceId": {
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "timeExperience": {
-                        "type": "string",
-                        "enum": [
-                            "LESS_THAN_6_MONTHS",
-                            "FROM_6_MONTHS_TO_1_YEAR",
-                            "FROM_1_YEAR_TO_2_YEARS",
-                            "FROM_2_YEARS_TO_5_YEARS",
-                            "MORE_THAN_5_YEARS"
-                        ]
-                    }
-                },
-                "required": [
-                    "catalogServiceId",
-                    "timeExperience"
-                ]
-            },
-            "UpdateServiceProviderExpertisesRequestDto": {
-                "type": "object",
-                "properties": {
-                    "serviceProviderExpertises": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ServiceProviderExpertisesRequestDto"
-                        },
-                        "maxItems": 2147483647,
-                        "minItems": 1
-                    }
-                },
-                "required": [
-                    "serviceProviderExpertises"
-                ]
-            },
             "CatalogAreaServiceResponseDto": {
                 "type": "object",
                 "properties": {
@@ -1797,6 +1885,9 @@
                     },
                     "curriculumUrl": {
                         "type": "string"
+                    },
+                    "generatedCurriculumUrl": {
+                        "type": "string"
                     }
                 }
             },
@@ -1831,6 +1922,71 @@
                         "type": "string"
                     }
                 }
+            },
+            "ServiceProviderExpertisesRequestDto": {
+                "type": "object",
+                "properties": {
+                    "catalogServiceId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "timeExperience": {
+                        "type": "string",
+                        "enum": [
+                            "LESS_THAN_6_MONTHS",
+                            "FROM_6_MONTHS_TO_1_YEAR",
+                            "FROM_1_YEAR_TO_2_YEARS",
+                            "FROM_2_YEARS_TO_5_YEARS",
+                            "MORE_THAN_5_YEARS"
+                        ]
+                    }
+                },
+                "required": [
+                    "catalogServiceId",
+                    "timeExperience"
+                ]
+            },
+            "UpdateServiceProviderExpertisesRequestDto": {
+                "type": "object",
+                "properties": {
+                    "serviceProviderExpertises": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ServiceProviderExpertisesRequestDto"
+                        },
+                        "maxItems": 2147483647,
+                        "minItems": 1
+                    }
+                },
+                "required": [
+                    "serviceProviderExpertises"
+                ]
+            },
+            "UpdateServiceProviderCurriculumEducationRequestDto": {
+                "type": "object",
+                "properties": {
+                    "curriculumEducation": {
+                        "type": "string",
+                        "enum": [
+                            "ELEMENTARY_INCOMPLETE",
+                            "ELEMENTARY_COMPLETE",
+                            "HIGH_SCHOOL_INCOMPLETE",
+                            "HIGH_SCHOOL_COMPLETE",
+                            "TECHNICAL_INCOMPLETE",
+                            "TECHNICAL_COMPLETE",
+                            "UNDERGRADUATE_INCOMPLETE",
+                            "UNDERGRADUATE_COMPLETE",
+                            "SPECIALIZATION_INCOMPLETE",
+                            "SPECIALIZATION_COMPLETE",
+                            "MASTERS_INCOMPLETE",
+                            "MASTERS_COMPLETE"
+                        ],
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "curriculumEducation"
+                ]
             },
             "UpdateServiceProviderCoverLetterRequestDto": {
                 "type": "object",
@@ -2678,6 +2834,12 @@
                     "sort": {
                         "$ref": "#/components/schemas/SortObject"
                     },
+                    "paged": {
+                        "type": "boolean"
+                    },
+                    "unpaged": {
+                        "type": "boolean"
+                    },
                     "pageSize": {
                         "type": "integer",
                         "format": "int32"
@@ -2685,12 +2847,6 @@
                     "pageNumber": {
                         "type": "integer",
                         "format": "int32"
-                    },
-                    "paged": {
-                        "type": "boolean"
-                    },
-                    "unpaged": {
-                        "type": "boolean"
                     }
                 }
             },
