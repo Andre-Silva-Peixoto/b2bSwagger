@@ -1730,6 +1730,46 @@
                     }
                 }
             }
+        },
+        "/catalog/areas-services": {
+            "get": {
+                "tags": [
+                    "catalog-area-service-controller"
+                ],
+                "summary": "Endpoint para listar todas as áreas de serviços disponíveis",
+                "description": "Retorna uma lista paginada de todas as áreas de serviços disponíveis.\n\nQualquer usuário logado com o Type 'SERVICE_PROVIDER'",
+                "operationId": "getAllAreasPaginated",
+                "parameters": [
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageCatalogAreaServiceResponseDto"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -2864,11 +2904,15 @@
             "PageCatalogServiceResponseDto": {
                 "type": "object",
                 "properties": {
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
                     "totalElements": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "totalPages": {
+                    "numberOfElements": {
                         "type": "integer",
                         "format": "int32"
                     },
@@ -2888,10 +2932,6 @@
                     },
                     "sort": {
                         "$ref": "#/components/schemas/SortObject"
-                    },
-                    "numberOfElements": {
-                        "type": "integer",
-                        "format": "int32"
                     },
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
@@ -2917,19 +2957,19 @@
                     "sort": {
                         "$ref": "#/components/schemas/SortObject"
                     },
-                    "pageSize": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "pageNumber": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "paged": {
                         "type": "boolean"
                     },
                     "unpaged": {
                         "type": "boolean"
+                    },
+                    "pageNumber": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "pageSize": {
+                        "type": "integer",
+                        "format": "int32"
                     }
                 }
             },
@@ -2947,14 +2987,64 @@
                     }
                 }
             },
-            "PageBackofficeUserResponseDto": {
+            "PageCatalogAreaServiceResponseDto": {
                 "type": "object",
                 "properties": {
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
                     "totalElements": {
                         "type": "integer",
                         "format": "int64"
                     },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CatalogAreaServiceResponseDto"
+                        }
+                    },
+                    "number": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sort": {
+                        "$ref": "#/components/schemas/SortObject"
+                    },
+                    "pageable": {
+                        "$ref": "#/components/schemas/PageableObject"
+                    },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
+                    "empty": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "PageBackofficeUserResponseDto": {
+                "type": "object",
+                "properties": {
                     "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "totalElements": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "numberOfElements": {
                         "type": "integer",
                         "format": "int32"
                     },
@@ -2975,10 +3065,6 @@
                     "sort": {
                         "$ref": "#/components/schemas/SortObject"
                     },
-                    "numberOfElements": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
@@ -2996,11 +3082,15 @@
             "PageEconomicGroupResponseDto": {
                 "type": "object",
                 "properties": {
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
                     "totalElements": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "totalPages": {
+                    "numberOfElements": {
                         "type": "integer",
                         "format": "int32"
                     },
@@ -3021,10 +3111,6 @@
                     "sort": {
                         "$ref": "#/components/schemas/SortObject"
                     },
-                    "numberOfElements": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
@@ -3042,11 +3128,15 @@
             "PageCustomerResponseDto": {
                 "type": "object",
                 "properties": {
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
                     "totalElements": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "totalPages": {
+                    "numberOfElements": {
                         "type": "integer",
                         "format": "int32"
                     },
@@ -3066,10 +3156,6 @@
                     },
                     "sort": {
                         "$ref": "#/components/schemas/SortObject"
-                    },
-                    "numberOfElements": {
-                        "type": "integer",
-                        "format": "int32"
                     },
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
